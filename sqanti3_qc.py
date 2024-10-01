@@ -10,7 +10,6 @@ __version__ = '5.2.2'  # Python 3.7
 import pdb
 import os, re, sys, subprocess, timeit, glob, copy
 import shutil
-import distutils.spawn
 import itertools
 import bisect
 import argparse
@@ -74,10 +73,10 @@ GMST_CMD = "perl " + GMSP_PROG + " -faa --strand direct --fnn --output {o} {i}"
 GTF2GENEPRED_PROG = os.path.join(utilitiesPath,"gtfToGenePred")
 GFFREAD_PROG = "gffread"
 
-if distutils.spawn.find_executable(GTF2GENEPRED_PROG) is None:
+if shutil.which(GTF2GENEPRED_PROG) is None:
     print("Cannot find executable {0}. Abort!".format(GTF2GENEPRED_PROG), file=sys.stderr)
     sys.exit(-1)
-if distutils.spawn.find_executable(GFFREAD_PROG) is None:
+if shutil.which(GFFREAD_PROG) is None:
     print("Cannot find executable {0}. Abort!".format(GFFREAD_PROG), file=sys.stderr)
     sys.exit(-1)
 
@@ -107,7 +106,7 @@ FIELDS_CLASS = ['isoform', 'chrom', 'strand', 'length',  'exons',  'structural_c
                 'dist_to_polyA_site', 'within_polyA_site',
                 'polyA_motif', 'polyA_dist', 'polyA_motif_found', 'ORF_seq', 'ratio_TSS']
 
-RSCRIPTPATH = distutils.spawn.find_executable('Rscript')
+RSCRIPTPATH = shutil.which('Rscript')
 RSCRIPT_REPORT = '/report_qc/SQANTI3_report.R'
 
 if os.system(RSCRIPTPATH + " --version")!=0:
